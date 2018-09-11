@@ -43,7 +43,7 @@ public class LoginInterface {
     private Statement stmt;
     public JFrame f;
     private Font myTitleFont = new Font("Serif",Font.BOLD,48);
-    private Font myFont = new Font("Serif",Font.PLAIN,24);
+    private Font myFont = new Font("Serif",Font.ITALIC,24);
     private Font myFont2 = new Font("Serif",Font.PLAIN,18);
     
     public LoginInterface() {
@@ -63,6 +63,7 @@ public class LoginInterface {
 
         boxlayout = new BoxLayout(f.getContentPane(),BoxLayout.Y_AXIS);
         f.setLayout(boxlayout);
+        f.getContentPane().setBackground(new Color(50,132,214));
 
         p1 = new JPanel(new FlowLayout());
         p2 = new JPanel(new FlowLayout());
@@ -78,8 +79,7 @@ public class LoginInterface {
         title.setAlignment(Label.CENTER);
 
 
-        f.setBackground(Color.white);
-        f.setForeground(Color.black);
+        
 
         l1.setFont(myFont);
         l1.setAlignment(Label.CENTER);
@@ -131,6 +131,9 @@ public class LoginInterface {
         p2.add(password);
         p1.setMaximumSize(p1.getPreferredSize());
 	p2.setMaximumSize(p1.getPreferredSize());
+        p1.setBackground(new Color(50,132,214));
+        p2.setBackground(new Color(50,132,214));
+        
 
         f.add(title);
         f.add(l1);
