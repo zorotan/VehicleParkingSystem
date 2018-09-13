@@ -60,7 +60,7 @@ public class ManageUsers {
         gc.gridy=1;
         gc.weightx = 0.2;
         gc.gridwidth = 1;        
-        JLabel col0 = new JLabel("ID");
+        JLabel col0 = new JLabel("  ID");
         col0.setFont(myFont2);
         col0.setOpaque(true);
         users.add(col0, gc);
@@ -148,7 +148,7 @@ public class ManageUsers {
         gc.gridx=0;
         gc.gridy=6;
         gc.weightx = 0.5;
-        gc.anchor = GridBagConstraints.SOUTHWEST;
+        gc.anchor = GridBagConstraints.SOUTH;
         JButton topUp = new JButton("Top Up");
         topUp.addActionListener(new ActionListener() {
                 @Override
@@ -162,6 +162,24 @@ public class ManageUsers {
         });
         users.add(topUp,gc);
         
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.gridx=4;
+        gc.gridy=6;
+        gc.weightx = 0.5;
+        gc.anchor = GridBagConstraints.SOUTH;
+        JButton viewTransactions = new JButton("Transactions");
+        viewTransactions.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                        ViewTransaction v = new ViewTransaction();
+                        f.getContentPane().removeAll();
+                        f.add(v.showTransactions(f));
+                        f.revalidate();
+                        f.repaint();
+                }
+        });
+        users.add(viewTransactions,gc);
+        
         try {
                 
                 String query = "select * from users";
@@ -172,7 +190,7 @@ public class ManageUsers {
                         String userEmail = rs.getString(2);
                         String userBalance = rs.getString(5);
                         String userCarPlateNo = rs.getString(6);
-                        String noUser = rs.getString(1);
+                        String noUser = "   " +rs.getString(1);
                         
                         JLabel name = new JLabel(userName,SwingConstants.CENTER);
                         JLabel email = new JLabel(userEmail,SwingConstants.CENTER);
