@@ -73,14 +73,9 @@ public class LoginInterface {
         admin = new JLabel("Admin ID: ");
         pwd = new JLabel("Password: ");
 
-        
-
         title.setFont(myTitleFont);
         title.setAlignment(Label.CENTER);
-
-
         
-
         l1.setFont(myFont);
         l1.setAlignment(Label.CENTER);
         admin.setFont(myFont2);
@@ -142,7 +137,7 @@ public class LoginInterface {
         f.add(Box.createVerticalGlue());
         f.add(b1);
         f.add(Box.createVerticalGlue());
-        f.setSize(800,400);
+        f.setSize(800,500);
         f.setVisible(true);
     }
     
