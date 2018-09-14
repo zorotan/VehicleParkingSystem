@@ -5,9 +5,12 @@
  */
 package vehicleparkingsystem;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -15,9 +18,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 import javax.swing.SwingConstants;
 
 /**
@@ -43,6 +50,10 @@ public class ViewTransaction {
         JPanel transactions = new JPanel();
         transactions.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
+        JScrollPane jsp = new JScrollPane(transactions,VERTICAL_SCROLLBAR_AS_NEEDED,HORIZONTAL_SCROLLBAR_NEVER);
+        JPanel wholePanel = new JPanel();
+        wholePanel.setLayout(new BoxLayout(wholePanel,BoxLayout.Y_AXIS));
+        jsp.setPreferredSize(new Dimension(800,380));
 
         gc.gridx=0;
         gc.gridy=0;
@@ -142,25 +153,6 @@ public class ViewTransaction {
         amountCol.setLayout(new BoxLayout(amountCol, BoxLayout.Y_AXIS));
         amountCol.setOpaque(true);
         transactions.add(amountCol, gc);
-        
-        /*gc.fill = GridBagConstraints.HORIZONTAL;
-        gc.gridx=2;
-        gc.gridy=6;
-        gc.weightx = 0.5;
-        gc.anchor = GridBagConstraints.SOUTH;
-        JButton topUp = new JButton("Top Up");
-        topUp.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        topUpBalance();
-                        f.getContentPane().removeAll();
-                        f.add(showUsers(f));
-                        f.revalidate();
-                        f.repaint();
-                }
-        });
-        transactions.add(topUp,gc);*/
-        
         try {
                 
                 String query = "select * from transaction";
@@ -198,12 +190,15 @@ public class ViewTransaction {
                         amountCol.add(amount_label);
                         transactions.repaint();
                 } 
-
         } 
         catch(SQLException ex) {
                 ex.printStackTrace();
         }
-
-        return transactions;
+        
+        
+        
+        wholePanel.add(new FilterTransactions(f));
+        wholePanel.add(jsp);
+        return wholePanel;
     }
 }

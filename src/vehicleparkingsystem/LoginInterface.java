@@ -73,14 +73,9 @@ public class LoginInterface {
         admin = new JLabel("Admin ID: ");
         pwd = new JLabel("Password: ");
 
-        
-
         title.setFont(myTitleFont);
         title.setAlignment(Label.CENTER);
-
-
         
-
         l1.setFont(myFont);
         l1.setAlignment(Label.CENTER);
         admin.setFont(myFont2);
