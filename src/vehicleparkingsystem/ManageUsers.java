@@ -5,6 +5,8 @@
  */
 package vehicleparkingsystem;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -41,7 +44,12 @@ public class ManageUsers {
     }
     
     public JPanel showUsers(JFrame f) {
+        JPanel wholePanel = new JPanel();
+        wholePanel.setLayout(new BoxLayout(wholePanel,BoxLayout.Y_AXIS));
+        JPanel buttonPanel = new JPanel(new FlowLayout());
         JPanel users = new JPanel();
+        JScrollPane jsp = new JScrollPane(users, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jsp.setPreferredSize(new Dimension(800, 300));
         users.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -144,11 +152,8 @@ public class ManageUsers {
         carCol.setOpaque(true);
         users.add(carCol, gc);
         
-        gc.fill = GridBagConstraints.HORIZONTAL;
-        gc.gridx=0;
-        gc.gridy=6;
-        gc.weightx = 0.5;
-        gc.anchor = GridBagConstraints.SOUTH;
+        
+        
         JButton topUp = new JButton("Top Up");
         topUp.addActionListener(new ActionListener() {
                 @Override
@@ -160,13 +165,8 @@ public class ManageUsers {
                         f.repaint();
                 }
         });
-        users.add(topUp,gc);
         
-        gc.fill = GridBagConstraints.HORIZONTAL;
-        gc.gridx=4;
-        gc.gridy=6;
-        gc.weightx = 0.5;
-        gc.anchor = GridBagConstraints.SOUTH;
+        
         JButton viewTransactions = new JButton("Transactions");
         viewTransactions.addActionListener(new ActionListener() {
                 @Override
@@ -178,7 +178,7 @@ public class ManageUsers {
                         f.repaint();
                 }
         });
-        users.add(viewTransactions,gc);
+        
         
         try {
                 
@@ -210,8 +210,11 @@ public class ManageUsers {
         catch(SQLException ex) {
                 ex.printStackTrace();
         }
-
-        return users;
+        buttonPanel.add(topUp);
+        buttonPanel.add(viewTransactions);
+        wholePanel.add(jsp);
+        wholePanel.add(buttonPanel);
+        return wholePanel;
     }
 
     

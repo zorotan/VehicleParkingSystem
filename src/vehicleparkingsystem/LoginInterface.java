@@ -142,7 +142,7 @@ public class LoginInterface {
         f.add(Box.createVerticalGlue());
         f.add(b1);
         f.add(Box.createVerticalGlue());
-        f.setSize(800,400);
+        f.setSize(800,500);
         f.setVisible(true);
     }
     
