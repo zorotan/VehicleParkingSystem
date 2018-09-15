@@ -5,7 +5,6 @@
  */
 package vehicleparkingsystem;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -13,14 +12,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
@@ -28,53 +28,107 @@ import javax.swing.SwingConstants;
  * @author Jack
  */
 public class FilterTransactions extends JPanel implements ItemListener{
-    private String location;
-    private String amount;
+    private String location = "1";
+    private String amount = "ASC";
     private JComboBox startYear, startMonth, startDay;
     private JComboBox endYear, endMonth, endDay;
     /* This is the start date used for the date dropdowns */
     private Calendar startDate = Calendar.getInstance();
+    private String formattedStartDate;
     /* This is the end date used for the date dropdowns */
     private Calendar endDate = Calendar.getInstance();
+    private String formattedEndDate;
+    private String startTime = "00:00";
+    private String endTime = "24:00";
 
     
     public FilterTransactions (JFrame f) {
-        JPanel endDatePanel = new JPanel(new FlowLayout());
+        setLayout(new GridLayout(2,2));
         JPanel locationPanel = new JPanel(new FlowLayout());
         JPanel amountPanel = new JPanel(new FlowLayout());
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        JPanel filterPanel = new JPanel();
+        JPanel startTimePanel = new JPanel();
+        JPanel endTimePanel = new JPanel();
+        JPanel timePanel = new JPanel();
+        timePanel.setBorder(BorderFactory.createTitledBorder
+            ("Time Range"));
+        filterPanel.setLayout(new BoxLayout(filterPanel,BoxLayout.Y_AXIS));
         
         JLabel location_label = new JLabel("Location: ");
-        JLabel amount_label = new JLabel("   Amount: ");
-        
-        
-        ViewTransaction vt = new ViewTransaction();
-        
+        JLabel amount_label = new JLabel("Amount Order: ");
+        JLabel start_time_label = new JLabel("Start Time: ");
+        JLabel end_time_label = new JLabel("End Time: ");
         JButton filter = new JButton("Filter");
-        filter.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        f.getContentPane().removeAll();
-                        f.add(vt.showTransactions(f));
-                        f.revalidate();
-                        f.repaint();
-                }
+        filter.addActionListener((ActionEvent e) -> {
+            ViewTransaction vt = new ViewTransaction();
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+            formattedStartDate = format1.format(startDate.getTime());
+            formattedEndDate = format1.format(endDate.getTime());
+            f.getContentPane().removeAll();
+            f.add(vt.showFilteredTransactions(f,getData()));
+            f.revalidate();
+            f.repaint();
+        });
+        JButton showAll = new JButton("Show All");
+        showAll.addActionListener((ActionEvent e) -> {
+            ViewTransaction vt = new ViewTransaction();
+            f.getContentPane().removeAll();
+            f.add(vt.showTransactions(f));
+            f.revalidate();
+            f.repaint();
         });
         
         String [] allLocation = {"Bukit Beruang","Batu Berendam","Melaka Raya","Kota Laksamana","Bukit Baru"};
         JComboBox locationList = new JComboBox(allLocation);
-        locationList.setEditable(true);
-        locationList.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                String loc = (String)locationList.getSelectedItem();
-                location = loc;
-            }
+        locationList.setEditable(false);
+        locationList.setSelectedIndex(0);
+        locationList.addActionListener((ActionEvent e) -> {
+            location = (String)locationList.getSelectedItem();
         });
+        
+        String [] amountOrderList = {"Ascending","Descending"};
+        JComboBox amountList = new JComboBox(amountOrderList);
+        amountList.setEditable(false);
+        amountList.setSelectedIndex(0);
+        amountList.addActionListener((ActionEvent e) -> {
+            String order = (String)amountList.getSelectedItem();
+            if(order == "Ascending")
+                amount = "ASC";
+            else
+                amount = "DESC";
+        });
+        
+        String [] timeList = {"00:00","01:00","02:00","03:00","04:00","05:00","06:00",
+            "07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00",
+            "15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","24:00"};
+        JComboBox startTimePicker = new JComboBox(timeList);
+        startTimePicker.setEditable(false);
+        startTimePicker.setSelectedIndex(0);
+        startTimePicker.addActionListener((ActionEvent e) -> {
+            startTime  = (String)startTimePicker.getSelectedItem();
+        });
+        
+        JComboBox endTimePicker = new JComboBox(timeList);
+        endTimePicker.setEditable(false);
+        endTimePicker.setSelectedIndex(24);
+        endTimePicker.addActionListener((ActionEvent e) -> {
+            endTime  = (String)endTimePicker.getSelectedItem();
+        });
+        
+        startTimePanel.add(start_time_label);
+        startTimePanel.add(startTimePicker);
+        endTimePanel.add(end_time_label);
+        endTimePanel.add(endTimePicker);
+        
+        timePanel.add(startTimePanel);
+        timePanel.add(endTimePanel);
         
         JPanel datesPanel = new JPanel();
         datesPanel.setBorder(BorderFactory.createTitledBorder
-            ("Dates of New Semester"));
-        JPanel datesInnerPanel = new JPanel(new GridLayout(2, 4, 10, 10));
+            ("Specific Date"));
+        JPanel datesInnerPanel = new JPanel(new GridLayout(2, 4, 5, 5));
         JLabel startDateLabel = new JLabel("Start Date:  ", SwingConstants.RIGHT);
         startYear = new JComboBox();
         buildYearsList(startYear);
@@ -92,6 +146,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
         datesInnerPanel.add(startMonth);
         datesInnerPanel.add(startDay);
         datesInnerPanel.add(startYear);
+        
         JLabel endDateLabel = new JLabel("End Date:  ", SwingConstants.RIGHT);
         endYear = new JComboBox();
         buildYearsList(endYear);
@@ -115,13 +170,20 @@ public class FilterTransactions extends JPanel implements ItemListener{
         locationPanel.add(location_label);
         locationPanel.add(locationList);
         
-        add(locationPanel);
-        add(amount_label);
+        amountPanel.add(amount_label);
+        amountPanel.add(amountList);
         
         buttonPanel.add(filter);
+        buttonPanel.add(showAll);
+        
+        JLabel invi = new JLabel(" ");
+        filterPanel.add(invi);
+        filterPanel.add(locationPanel);
+        filterPanel.add(amountPanel);
+        
+        add(filterPanel);
+        add(timePanel);
         add(buttonPanel);
-        
-        
         setVisible(true);
     }
     
@@ -173,6 +235,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
      * changes
      * @param event This occurs when a dropdown changes values
      */
+    @Override
     public void itemStateChanged(ItemEvent event) {
 
         if (event.getSource() == startYear &&
@@ -223,7 +286,9 @@ public class FilterTransactions extends JPanel implements ItemListener{
         }
     }
 
+   public String[] getData() {
+       String[] data = {location,amount,formattedStartDate,formattedEndDate,startTime,endTime};
+       return data;
+   }
    
-
-    
 }

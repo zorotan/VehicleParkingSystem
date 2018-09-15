@@ -24,8 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -33,10 +31,10 @@ import javax.swing.SwingUtilities;
  */
 public class ManageUsers {
     
-    private Font myFont2 = new Font("Serif",Font.PLAIN,18);
-    private Font myFont = new Font("Serif",Font.PLAIN,24);
-    private DbConnect usersDb;
-    private Statement stmt;
+    private final Font myFont2 = new Font("Serif",Font.PLAIN,18);
+    private final Font myFont = new Font("Serif",Font.BOLD,24);
+    private final DbConnect usersDb;
+    private final Statement stmt;
     
     public ManageUsers() {
         usersDb = new DbConnect();
@@ -53,28 +51,18 @@ public class ManageUsers {
         users.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
+        gc.fill = GridBagConstraints.BOTH;
         gc.gridx=0;
         gc.gridy=0;
-        gc.fill = GridBagConstraints.HORIZONTAL;
-        gc.weightx = 1.0;
-        gc.gridwidth = 4;
-        JLabel title = new JLabel("Users");
-        title.setFont(myFont);
-        title.setOpaque(true);
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        users.add(title, gc);
-        
-        gc.gridx=0;
-        gc.gridy=1;
         gc.weightx = 0.2;
         gc.gridwidth = 1;        
-        JLabel col0 = new JLabel("  ID");
+        JLabel col0 = new JLabel("ID");
         col0.setFont(myFont2);
         col0.setOpaque(true);
         users.add(col0, gc);
 
         gc.gridx=1;
-        gc.gridy=1;
+        gc.gridy=0;
         gc.weightx = 0.5;
         gc.gridwidth = 1;        
         JLabel col1 = new JLabel("Name");
@@ -83,7 +71,7 @@ public class ManageUsers {
         users.add(col1, gc);
 
         gc.gridx=2;
-        gc.gridy=1;
+        gc.gridy=0;
         gc.weightx = 0.5;
         JLabel col2 = new JLabel("Email");
         col2.setFont(myFont2);
@@ -91,7 +79,7 @@ public class ManageUsers {
         users.add(col2, gc);
         
         gc.gridx=3;
-        gc.gridy=1;
+        gc.gridy=0;
         gc.weightx = 0.5;
         JLabel col3 = new JLabel("Balance");
         col3.setFont(myFont2);
@@ -99,7 +87,7 @@ public class ManageUsers {
         users.add(col3, gc);
         
         gc.gridx=4;
-        gc.gridy=1;  
+        gc.gridy=0;  
         gc.weightx = 0.5;
         JLabel col4 = new JLabel("Car Plate No.");
         col4.setFont(myFont2);
@@ -108,7 +96,7 @@ public class ManageUsers {
         
         gc.fill = GridBagConstraints.BOTH;
         gc.gridx=0;
-        gc.gridy=2;
+        gc.gridy=1;
         gc.weighty = 0.5;
         gc.gridwidth = 1;        
         JPanel noCol = new JPanel();
@@ -117,7 +105,7 @@ public class ManageUsers {
         users.add(noCol, gc);
         
         gc.gridx=1;
-        gc.gridy=2;
+        gc.gridy=1;
         gc.weighty = 0.5;
         gc.gridwidth = 1;        
         JPanel nameCol = new JPanel();
@@ -127,7 +115,7 @@ public class ManageUsers {
 
         
         gc.gridx=2;
-        gc.gridy=2;
+        gc.gridy=1;
         gc.weighty = 0.5;       
         JPanel emailCol = new JPanel();
         emailCol.setLayout(new BoxLayout(emailCol, BoxLayout.Y_AXIS));
@@ -136,7 +124,7 @@ public class ManageUsers {
         
         
         gc.gridx=3;
-        gc.gridy=2;
+        gc.gridy=1;
         gc.weighty = 0.5;      
         JPanel balanceCol = new JPanel();
         balanceCol.setLayout(new BoxLayout(balanceCol, BoxLayout.Y_AXIS));
@@ -145,7 +133,7 @@ public class ManageUsers {
         
         
         gc.gridx=4;
-        gc.gridy=2;
+        gc.gridy=1;
         gc.weighty =0.5;       
         JPanel carCol = new JPanel();
         carCol.setLayout(new BoxLayout(carCol, BoxLayout.Y_AXIS));
@@ -155,28 +143,22 @@ public class ManageUsers {
         
         
         JButton topUp = new JButton("Top Up");
-        topUp.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        topUpBalance();
-                        f.getContentPane().removeAll();
-                        f.add(showUsers(f));
-                        f.revalidate();
-                        f.repaint();
-                }
+        topUp.addActionListener((ActionEvent e) -> {
+            topUpBalance();
+            f.getContentPane().removeAll();
+            f.add(showUsers(f));
+            f.revalidate();
+            f.repaint();
         });
         
         
         JButton viewTransactions = new JButton("Transactions");
-        viewTransactions.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        ViewTransaction v = new ViewTransaction();
-                        f.getContentPane().removeAll();
-                        f.add(v.showTransactions(f));
-                        f.revalidate();
-                        f.repaint();
-                }
+        viewTransactions.addActionListener((ActionEvent e) -> {
+            ViewTransaction v = new ViewTransaction();
+            f.getContentPane().removeAll();
+            f.add(v.showTransactions(f));
+            f.revalidate();
+            f.repaint();
         });
         
         
@@ -192,10 +174,10 @@ public class ManageUsers {
                         String userCarPlateNo = rs.getString(6);
                         String noUser = "   " +rs.getString(1);
                         
-                        JLabel name = new JLabel(userName,SwingConstants.CENTER);
-                        JLabel email = new JLabel(userEmail,SwingConstants.CENTER);
-                        JLabel balance = new JLabel(userBalance,SwingConstants.CENTER);
-                        JLabel carNo = new JLabel(userCarPlateNo,SwingConstants.CENTER);
+                        JLabel name = new JLabel(userName);
+                        JLabel email = new JLabel(userEmail);
+                        JLabel balance = new JLabel(userBalance);
+                        JLabel carNo = new JLabel(userCarPlateNo);
                         JLabel num = new JLabel(noUser);
                        
                         nameCol.add(name);
@@ -212,7 +194,15 @@ public class ManageUsers {
         }
         buttonPanel.add(topUp);
         buttonPanel.add(viewTransactions);
+        JLabel title = new JLabel("Users");
+        title.setFont(myFont);
+        JLabel inviBox = new JLabel(" ");
+        JPanel titlePanel = new JPanel();
+        titlePanel.add(title);
+        titlePanel.setMaximumSize(titlePanel.getPreferredSize());
+        wholePanel.add(titlePanel);
         wholePanel.add(jsp);
+        wholePanel.add(inviBox);
         wholePanel.add(buttonPanel);
         return wholePanel;
     }

@@ -36,7 +36,6 @@ public class DbConnect {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/parkmelaka"+
                     "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                     "testAdmin","123456");
-            System.out.println("Database Connected");
             Statement stmt=con.createStatement();  
             return stmt;
             } catch(Exception e) {

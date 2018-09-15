@@ -8,14 +8,8 @@ package vehicleparkingsystem;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,7 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 /**
  *
@@ -43,7 +36,7 @@ public class LoginInterface {
     private Statement stmt;
     public JFrame f;
     private Font myTitleFont = new Font("Serif",Font.BOLD,48);
-    private Font myFont = new Font("Serif",Font.ITALIC,24);
+    private Font myFont = new Font("Serif",Font.BOLD,24);
     private Font myFont2 = new Font("Serif",Font.PLAIN,18);
     
     public LoginInterface() {
@@ -107,17 +100,14 @@ public class LoginInterface {
 
         b1 = new JButton("Sign In");
         b1.setBounds(50,100,60,30);
-        b1.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        if(checkIDExisted(e)) {
-                            ManageUsers manage = new ManageUsers();
-                            f.getContentPane().removeAll();
-                            f.add(manage.showUsers(f));
-                            f.revalidate();
-                            f.repaint();
-                        }
-                }
+        b1.addActionListener((ActionEvent e) -> {
+            if(checkIDExisted(e)) {
+                ManageUsers manage = new ManageUsers();
+                f.getContentPane().removeAll();
+                f.add(manage.showUsers(f));
+                f.revalidate();
+                f.repaint();
+            }
         });
 
         p1.add(admin);

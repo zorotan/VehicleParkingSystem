@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 package vehicleparkingsystem;
-import java.awt.*;
-import javax.swing.*;
-import java.sql.*;
-import java.awt.event.*;
+
 /**
  *
  * @author autocount
