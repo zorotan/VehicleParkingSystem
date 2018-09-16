@@ -328,7 +328,7 @@ public class ViewTransaction {
         constraintsPanel.add(endTimeConstraintsLabel);
         constraintsPanel.add(locConstraintsLabel);
         constraintsPanel.add(amountConstraintsLabel);
-        constraintsPanel.setSize(new Dimension(800,80));
+        constraintsPanel.setPreferredSize(new Dimension(800,30));
         
         JPanel totalPanel = new JPanel();
         totalPanel.setBorder(BorderFactory.createTitledBorder("Total"));
@@ -385,7 +385,7 @@ public class ViewTransaction {
                 }else if(!"0".equals(specificLocation) && "0".equals(amountOrder)){
                     query = "select * from transaction where trans_loc = "+ specificLocation + 
                         " and trans_starttime >= '" + specificStartTime + "' and trans_endtime <= '" + 
-                            specificEndTime +"' ORDER by trans_start" ;
+                            specificEndTime +"' ORDER by trans_start DESC" ;
                 }else if("0".equals(specificLocation) && !"0".equals(amountOrder)){
                     query = "select * from transaction where trans_starttime >= '" + specificStartTime + "' and trans_endtime <= '" + 
                             specificEndTime +"' ORDER by trans_amount  " + amountOrder;
@@ -484,10 +484,10 @@ public class ViewTransaction {
         JLabel totalAmountLabel = new JLabel(totalAmountString);
         totalPanel.add(totalUserLabel);
         totalPanel.add(totalAmountLabel);
-        totalPanel.setPreferredSize(new Dimension(800,20));
+        totalPanel.setPreferredSize(new Dimension(800,30));
         
         JScrollPane jsp = new JScrollPane(transactions,VERTICAL_SCROLLBAR_AS_NEEDED,HORIZONTAL_SCROLLBAR_NEVER);
-        jsp.setPreferredSize(new Dimension(800,100));
+        jsp.setPreferredSize(new Dimension(800,140));
         transactionPanel.add(transactionLabel);
         transactionPanel.add(jsp);
         wholePanel.add(new FilterTransactions(f));

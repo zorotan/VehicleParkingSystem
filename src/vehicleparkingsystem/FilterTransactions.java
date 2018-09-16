@@ -6,6 +6,7 @@
 package vehicleparkingsystem;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -47,7 +48,9 @@ public class FilterTransactions extends JPanel implements ItemListener{
     private String noneDate = "0";
     
     public FilterTransactions (JFrame f) {
-        setLayout(new GridLayout(2,2));
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JPanel topPanel = new JPanel(new GridLayout(1,2));
+        JPanel bottomPanel = new JPanel(new GridLayout(1,2));
         JPanel locationPanel = new JPanel(new FlowLayout());
         JPanel amountPanel = new JPanel(new FlowLayout());
         JPanel buttonPanel = new JPanel();
@@ -128,6 +131,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
         
         timePanel.add(startTimePanel);
         timePanel.add(endTimePanel);
+        timePanel.setPreferredSize(new Dimension(400,60));
         
         JPanel datesPanel = new JPanel();
         datesPanel.setLayout(new BoxLayout(datesPanel,BoxLayout.Y_AXIS));
@@ -178,9 +182,10 @@ public class FilterTransactions extends JPanel implements ItemListener{
                 noneDate = "0";
         };
         });
+        datesInnerPanel.setPreferredSize(new Dimension(400,50));
         datesPanel.add(datesInnerPanel, BorderLayout.CENTER);
         datesPanel.add(noDate, BorderLayout.CENTER);
-        add(datesPanel);
+        
         
         locationPanel.add(location_label);
         locationPanel.add(locationList);
@@ -190,15 +195,21 @@ public class FilterTransactions extends JPanel implements ItemListener{
         
         buttonPanel.add(filter);
         buttonPanel.add(showAll);
+        buttonPanel.setPreferredSize(new Dimension(400,40));
         
         JLabel invi = new JLabel(" ");
         filterPanel.add(invi);
         filterPanel.add(locationPanel);
         filterPanel.add(amountPanel);
         
-        add(filterPanel);
-        add(timePanel);
-        add(buttonPanel);
+        topPanel.add(datesPanel);
+        topPanel.add(filterPanel);
+        topPanel.setMaximumSize(topPanel.getPreferredSize());
+        bottomPanel.add(timePanel);
+        bottomPanel.add(buttonPanel);
+        //bottomPanel.setMaximumSize(bottomPanel.getPreferredSize());
+        add(topPanel);
+        add(bottomPanel);
         setVisible(true);
     }
     
