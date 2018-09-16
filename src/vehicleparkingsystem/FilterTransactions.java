@@ -10,7 +10,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
@@ -75,7 +74,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
             formattedEndDate = format1.format(endDate.getTime());
             f.getContentPane().removeAll();
             try {
-                f.add(vt.showFilteredTransactions(f,getData()));
+                f.add(vt.showTransactions(f,getData()));
             } catch (ParseException ex) {
                 Logger.getLogger(FilterTransactions.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -86,7 +85,11 @@ public class FilterTransactions extends JPanel implements ItemListener{
         showAll.addActionListener((ActionEvent e) -> {
             ViewTransaction vt = new ViewTransaction();
             f.getContentPane().removeAll();
-            f.add(vt.showTransactions(f));
+            try {
+                f.add(vt.showTransactions(f));
+            } catch (ParseException ex) {
+                Logger.getLogger(FilterTransactions.class.getName()).log(Level.SEVERE, null, ex);
+            }
             f.revalidate();
             f.repaint();
         });

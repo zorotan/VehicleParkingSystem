@@ -11,10 +11,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -156,7 +158,11 @@ public class ManageUsers {
         viewTransactions.addActionListener((ActionEvent e) -> {
             ViewTransaction v = new ViewTransaction();
             f.getContentPane().removeAll();
-            f.add(v.showTransactions(f));
+            try {
+                f.add(v.showTransactions(f));
+            } catch (ParseException ex) {
+                Logger.getLogger(ManageUsers.class.getName()).log(Level.SEVERE, null, ex);
+            }
             f.revalidate();
             f.repaint();
         });
