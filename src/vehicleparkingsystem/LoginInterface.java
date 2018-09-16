@@ -145,7 +145,6 @@ public class LoginInterface {
                         JOptionPane.showMessageDialog(null,"Welcome "+ adminName);
                         return true;
                 } else {
-                        JOptionPane.showMessageDialog(null, "Wrong ID or password");
                         return false;
                 }
 

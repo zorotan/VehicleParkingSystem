@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS admin(
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   admin_ID VARCHAR(255) NOT NULL,
   admin_password VARCHAR(255) NOT NULL,
-  admin_name VARCHAR(255),
+  admin_name VARCHAR(255)
 );
 
 /*insert dummy data into admin table*/

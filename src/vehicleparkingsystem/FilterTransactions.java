@@ -12,11 +12,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,8 +32,8 @@ import javax.swing.SwingConstants;
  * @author Jack
  */
 public class FilterTransactions extends JPanel implements ItemListener{
-    private String location = "1";
-    private String amount = "ASC";
+    private String location = "<None>";
+    private String amountOrder = "<None>";
     private JComboBox startYear, startMonth, startDay;
     private JComboBox endYear, endMonth, endDay;
     /* This is the start date used for the date dropdowns */
@@ -40,7 +44,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
     private String formattedEndDate;
     private String startTime = "00:00";
     private String endTime = "24:00";
-
+    private String noneDate = "0";
     
     public FilterTransactions (JFrame f) {
         setLayout(new GridLayout(2,2));
@@ -67,7 +71,11 @@ public class FilterTransactions extends JPanel implements ItemListener{
             formattedStartDate = format1.format(startDate.getTime());
             formattedEndDate = format1.format(endDate.getTime());
             f.getContentPane().removeAll();
-            f.add(vt.showFilteredTransactions(f,getData()));
+            try {
+                f.add(vt.showFilteredTransactions(f,getData()));
+            } catch (ParseException ex) {
+                Logger.getLogger(FilterTransactions.class.getName()).log(Level.SEVERE, null, ex);
+            }
             f.revalidate();
             f.repaint();
         });
@@ -80,7 +88,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
             f.repaint();
         });
         
-        String [] allLocation = {"Bukit Beruang","Batu Berendam","Melaka Raya","Kota Laksamana","Bukit Baru"};
+        String [] allLocation = {"<None>","Bukit Beruang","Batu Berendam","Melaka Raya","Kota Laksamana","Bukit Baru"};
         JComboBox locationList = new JComboBox(allLocation);
         locationList.setEditable(false);
         locationList.setSelectedIndex(0);
@@ -88,16 +96,12 @@ public class FilterTransactions extends JPanel implements ItemListener{
             location = (String)locationList.getSelectedItem();
         });
         
-        String [] amountOrderList = {"Ascending","Descending"};
+        String [] amountOrderList = {"<None>","Ascending","Descending"};
         JComboBox amountList = new JComboBox(amountOrderList);
         amountList.setEditable(false);
         amountList.setSelectedIndex(0);
         amountList.addActionListener((ActionEvent e) -> {
-            String order = (String)amountList.getSelectedItem();
-            if(order == "Ascending")
-                amount = "ASC";
-            else
-                amount = "DESC";
+            amountOrder = (String)amountList.getSelectedItem();
         });
         
         String [] timeList = {"00:00","01:00","02:00","03:00","04:00","05:00","06:00",
@@ -126,6 +130,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
         timePanel.add(endTimePanel);
         
         JPanel datesPanel = new JPanel();
+        datesPanel.setLayout(new BoxLayout(datesPanel,BoxLayout.Y_AXIS));
         datesPanel.setBorder(BorderFactory.createTitledBorder
             ("Specific Date"));
         JPanel datesInnerPanel = new JPanel(new GridLayout(2, 4, 5, 5));
@@ -164,7 +169,17 @@ public class FilterTransactions extends JPanel implements ItemListener{
         datesInnerPanel.add(endMonth);
         datesInnerPanel.add(endDay);
         datesInnerPanel.add(endYear);
+        JCheckBox noDate = new JCheckBox("None: ");
+        noDate.setHorizontalTextPosition(SwingConstants.LEFT);
+        noDate.addItemListener((ItemEvent e) -> {
+            if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
+                noneDate = "1"; 
+            }   else {//checkbox has been deselected
+                noneDate = "0";
+        };
+        });
         datesPanel.add(datesInnerPanel, BorderLayout.CENTER);
+        datesPanel.add(noDate, BorderLayout.CENTER);
         add(datesPanel);
         
         locationPanel.add(location_label);
@@ -287,7 +302,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
     }
 
    public String[] getData() {
-       String[] data = {location,amount,formattedStartDate,formattedEndDate,startTime,endTime};
+       String[] data = {location,amountOrder,formattedStartDate,formattedEndDate,startTime,endTime,noneDate};
        return data;
    }
    
