@@ -36,7 +36,6 @@ import javax.swing.SwingConstants;
 public class ViewTransaction {
     
     private final Font myFont2 = new Font("Serif",Font.PLAIN,18);
-    private final Font myFont = new Font("Serif",Font.PLAIN,24);
     private final DbConnect transactionsDb;
     
     public ViewTransaction() {
@@ -380,9 +379,9 @@ public class ViewTransaction {
         wholePanel.add(new FilterTransactions(f));
         if(dataExisted) {
             wholePanel.add(constraintsPanel);
-            jsp.setPreferredSize(new Dimension(800,140));
+            jsp.setPreferredSize(new Dimension(790,140));
         } else {
-            jsp.setPreferredSize(new Dimension(800,180));
+            jsp.setPreferredSize(new Dimension(790,180));
         }
         transactionPanel.add(transactionLabel);
         transactionPanel.add(jsp);

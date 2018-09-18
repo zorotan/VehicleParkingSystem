@@ -93,7 +93,14 @@ public class FilterTransactions extends JPanel implements ItemListener{
             f.revalidate();
             f.repaint();
         });
-        
+        JButton back = new JButton("Back");
+        back.addActionListener((ActionEvent e) -> {
+            ManageUsers manage = new ManageUsers();
+            f.getContentPane().removeAll();
+            f.add(manage.showUsers(f));
+            f.revalidate();
+            f.repaint();
+        });
         String [] allLocation = {"<None>","Bukit Beruang","Batu Berendam","Melaka Raya","Kota Laksamana","Bukit Baru"};
         JComboBox locationList = new JComboBox(allLocation);
         locationList.setEditable(false);
@@ -198,6 +205,7 @@ public class FilterTransactions extends JPanel implements ItemListener{
         
         buttonPanel.add(filter);
         buttonPanel.add(showAll);
+        buttonPanel.add(back);
         buttonPanel.setPreferredSize(new Dimension(400,40));
         
         JLabel invi = new JLabel(" ");

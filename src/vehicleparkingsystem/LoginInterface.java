@@ -34,7 +34,7 @@ public class LoginInterface {
     private JTextField t1;
     private JPasswordField password;
     private Statement stmt;
-    public JFrame f;
+    private JFrame f;
     private Font myTitleFont = new Font("Serif",Font.BOLD,48);
     private Font myFont = new Font("Serif",Font.BOLD,24);
     private Font myFont2 = new Font("Serif",Font.PLAIN,18);

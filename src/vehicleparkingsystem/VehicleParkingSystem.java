@@ -16,7 +16,6 @@ public class VehicleParkingSystem {
      */
     
     public static void main(String[] args) {
-        // TODO code application logic 
         LoginInterface login = new LoginInterface();
         login.init();
         
