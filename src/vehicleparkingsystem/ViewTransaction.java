@@ -36,10 +36,8 @@ import javax.swing.SwingConstants;
 public class ViewTransaction {
     
     private final Font myFont2 = new Font("Serif",Font.PLAIN,18);
-    private final DbConnect transactionsDb;
     
     public ViewTransaction() {
-        transactionsDb = new DbConnect();
     }
     
     public JPanel showTransactions(JFrame f) throws ParseException {
@@ -52,8 +50,8 @@ public class ViewTransaction {
         if(data!= null) {
             dataExisted = true;
         }
-        Statement stmt = transactionsDb.userDbConnect();
-        Statement stmt2 = transactionsDb.userDbConnect();
+        Statement stmt = DbConnect.userDbConnect();
+        Statement stmt2 = DbConnect.userDbConnect();
         JPanel transactionPanel = new JPanel();
         JPanel transactions = new JPanel();
         transactions.setLayout(new GridBagLayout());
@@ -268,6 +266,9 @@ public class ViewTransaction {
             
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()) {
+                if(rs.wasNull()) {
+                    break;
+                }
                 String userId =null;
                 String trans_start=null;
                 String trans_end=null;

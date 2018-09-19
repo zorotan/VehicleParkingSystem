@@ -40,8 +40,7 @@ public class LoginInterface {
     private Font myFont2 = new Font("Serif",Font.PLAIN,18);
     
     public LoginInterface() {
-        DbConnect adminDb = new DbConnect();
-        stmt = adminDb.dbConnect();
+        stmt = DbConnect.dbConnect();
     }
     
     public void init() {

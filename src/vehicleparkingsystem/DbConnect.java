@@ -7,6 +7,7 @@ package vehicleparkingsystem;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -14,7 +15,7 @@ import java.sql.Statement;
  * @author autocount
  */
 public class DbConnect {
-    public Statement dbConnect() {
+    public static Statement dbConnect() {
         
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -30,7 +31,7 @@ public class DbConnect {
         return null;
     }
     
-    public Statement userDbConnect() {
+    public static Statement userDbConnect() {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/parkmelaka"+
@@ -42,6 +43,14 @@ public class DbConnect {
                 e.printStackTrace();
             }
         return null;
+    }
+    
+    public static Connection preparedConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/parkmelaka"+
+                    "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+                    "testAdmin","123456");
+        return con;
     }
     
 }
