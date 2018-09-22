@@ -258,31 +258,50 @@ public class ManageUsers {
             try {
                 String no = noUser.getText();
                 String topAmount = amount.getText();
-                
-                String query1 = "select user_balance from users where id = " + no;
-                ResultSet rs = stmt.executeQuery(query1);
-                double value = 0;
-                if(rs.next()) {
-                    value = Double.parseDouble(rs.getString(1));
+                if(isNumeric(topAmount) && Double.parseDouble(topAmount) > 0 ) {
+                    String query1 = "select user_balance from users where id = " + no;
+                    ResultSet rs = stmt.executeQuery(query1);
+                    double value = 0;
+                    if(rs.next()) {
+                        value = Double.parseDouble(rs.getString(1));
+                    } else {
+                        JOptionPane.showMessageDialog(null,"ID not existed.","Error Message",JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    value += Double.parseDouble(topAmount);
+                    topAmount = Double.toString(value);
+                    String query = "update users set user_balance = "+ topAmount + " where id = " + no;
+                    int i = stmt.executeUpdate(query);
+                    query = "update users set user_top_up = ? where id = ?";
+                    PreparedStatement st = conn.prepareStatement(query);
+                    st.setNull(1, Types.INTEGER);
+                    st.setString(2,no);
+                    int count  = st.executeUpdate();
+                    if(count > 0) {
+                        JOptionPane.showMessageDialog(null,"Top Up Successfully!","Success",JOptionPane.INFORMATION_MESSAGE);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null,"Error");
+                    JOptionPane.showMessageDialog(null,"Please enter a valid amount.","Error Message",JOptionPane.ERROR_MESSAGE);
                 }
-                value += Double.parseDouble(topAmount);
-                topAmount = Double.toString(value);
-                String query = "update users set user_balance = "+ topAmount + " where id = " + no;
-                int i = stmt.executeUpdate(query);
-                query = "update users set user_top_up = ? where id = ?";
-                PreparedStatement st = conn.prepareStatement(query);
-                st.setNull(1, Types.INTEGER);
-                st.setString(2,no);
-                int count  = st.executeUpdate();
-                System.out.println("Succes top Up");
+                
+
             }
            catch(SQLException ex) {
                 ex.printStackTrace();
             }
         }
     }
-
+    public static boolean isNumeric(String str)  
+    {  
+      try  
+      {  
+        double d = Double.parseDouble(str);  
+      }  
+      catch(NumberFormatException nfe)  
+      {  
+        return false;  
+      }  
+      return true;  
+    }
   
 }

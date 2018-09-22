@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
@@ -219,7 +220,7 @@ public class ViewTransaction {
                 case "Kota Laksamana":
                     specificLocation = "4";
                     break;
-                case "Batu Baru":
+                case "Bukit Baru":
                     specificLocation = "5";
                     break;
                 default:
@@ -267,6 +268,7 @@ public class ViewTransaction {
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()) {
                 if(rs.wasNull()) {
+                    JOptionPane.showMessageDialog(null,"No record found.","Null",JOptionPane.INFORMATION_MESSAGE);
                     break;
                 }
                 String userId =null;
@@ -303,7 +305,7 @@ public class ViewTransaction {
                             catch(SQLException ex) {
                                 ex.printStackTrace();
                             }
-                        }
+                        } 
                     }
                     else {
                     userId = "   "+ rs.getString(2);
@@ -369,6 +371,9 @@ public class ViewTransaction {
                 ex.printStackTrace();
         }
         totalUsersString += Integer.toString(totalUsers);
+        if(totalUsers == 0) {
+            JOptionPane.showMessageDialog(null,"No record found.","Null",JOptionPane.INFORMATION_MESSAGE);
+        }
         totalAmountString += String.format("%.2f",totalAmount);
         JLabel totalUserLabel = new JLabel(totalUsersString);
         JLabel totalAmountLabel = new JLabel(totalAmountString);

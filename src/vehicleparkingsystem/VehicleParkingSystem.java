@@ -5,22 +5,9 @@
  */
 package vehicleparkingsystem;
 
-/**
- *
- * @author autocount
- */
 public class VehicleParkingSystem {
-
-    /**
-     * @param args the command line arguments
-     */
-    
     public static void main(String[] args) {
         LoginInterface login = new LoginInterface();
         login.init();
-        
     }
-
-    
-    
 }
