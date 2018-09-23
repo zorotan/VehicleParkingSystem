@@ -246,11 +246,11 @@ public class ViewTransaction {
         try {
             if(dataExisted) {
                 if(!"0".equals(specificLocation) && !"0".equals(amountOrder)) {
-                    query = "select *  from transaction where trans_loc = "+ specificLocation + 
+                    query = "select *  from transaction where trans_loc_id = "+ specificLocation + 
                         " and trans_starttime >= '" + specificStartTime + "' and trans_endtime <= '" + 
                             specificEndTime +"' ORDER by trans_amount  " + amountOrder ;
                 }else if(!"0".equals(specificLocation) && "0".equals(amountOrder)){
-                    query = "select * from transaction where trans_loc = "+ specificLocation + 
+                    query = "select * from transaction where trans_loc_id = "+ specificLocation + 
                         " and trans_starttime >= '" + specificStartTime + "' and trans_endtime <= '" + 
                             specificEndTime +"' ORDER by trans_start DESC" ;
                 }else if("0".equals(specificLocation) && !"0".equals(amountOrder)){
@@ -296,7 +296,7 @@ public class ViewTransaction {
                             amountDouble = round(amountDouble,2);
                             amount = String.format("%.2f",amountDouble);
                             try {
-                                queryLoc = "select * from location where id = " + location_id;
+                                queryLoc = "select * from location where trans_loc_id = " + location_id;
                                 ResultSet rs2 = stmt2.executeQuery(queryLoc);
                                 while(rs2.next()) {
                                     location = rs2.getString(2);
@@ -318,7 +318,7 @@ public class ViewTransaction {
                     amountDouble = round(amountDouble,2);
                     amount = String.format("%.2f",amountDouble);
                     try {
-                        queryLoc = "select * from location where id = " + location_id;
+                        queryLoc = "select * from location where trans_loc_id = " + location_id;
                         ResultSet rs2 = stmt2.executeQuery(queryLoc);
                         while(rs2.next()) {
                             location = rs2.getString(2);
@@ -339,7 +339,7 @@ public class ViewTransaction {
                     amountDouble = round(amountDouble,2);
                     amount = String.format("%.2f",amountDouble);
                     try {
-                        queryLoc = "select * from location where id = " + location_id;
+                        queryLoc = "select * from location where trans_loc_id = " + location_id;
                         ResultSet rs2 = stmt2.executeQuery(queryLoc);
                         while(rs2.next()) {
                             location = rs2.getString(2);
